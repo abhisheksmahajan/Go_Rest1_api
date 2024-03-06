@@ -66,7 +66,7 @@ public class Tets_api {
     }
     @Test(priority = 11 , description = "Verify that User should get user details with invalid user id .")
     void Getuserlist3(){
-        Assert.assertEquals(get.getId("11111"),422);
+        Assert.assertEquals(get.getId("11111"),404);
     }
     @Test(priority = 12 , description = "Verify that User should get user details with Alfa numeric user id .")
     void Getuserlist4(){
@@ -74,15 +74,15 @@ public class Tets_api {
     }
     @Test(priority = 13 , description = "Verify that User should update details with valid information .")
     void Updateuser1(){
-        Assert.assertEquals(put.updateUserTest(Random1.generateRandomName(),Random1.generateDynamicEmail(),"female","active"),200);
+        Assert.assertEquals(put.updateUser(Random1.generateRandomName(),Random1.generateDynamicEmail(),"female","active"),200);
     }
     @Test(priority = 14 , description = "Verify that User should update details with inactive Status .")
     void Updateuser2(){
-        Assert.assertEquals(put.updateUserTest(Random1.generateRandomName(),Random1.generateDynamicEmail(),"female","inactive"),200);
+        Assert.assertEquals(put.updateUser(Random1.generateRandomName(),Random1.generateDynamicEmail(),"female","inactive"),200);
     }
     @Test(priority = 15 , description = "Verify that User should not update details with invalid information.")
     void Updateuser4(){
-        Assert.assertEquals(put.updateUserTest(Random1.generateRandomName(),"abc.com","female","active"),404);
+        Assert.assertEquals(put.updateUser(Random1.generateRandomName(),"abc.com","female","active"),422);
     }
     @Test(priority = 16 , description = "Verify that User should not update details with null email id.")
     void Updateuser5(){
@@ -90,7 +90,27 @@ public class Tets_api {
     }
     @Test(priority = 17 , description = "Verify that User should not update details with null name.")
     void Updateuser6(){
-        Assert.assertEquals(put.invalidputrequest(null,"abc.com","female","active"),404);
+        Assert.assertEquals(put.invalidputrequest(null,"abc@gmail.com","female","active"),404);
+    }
+    @Test(priority = 18 , description = "Verify that User should not update details with invalid gender type.")
+    void Updateuser7(){
+        Assert.assertEquals(put.updateUser(null,"abc@gmail.com","yzyz","active"),422);
+    }
+    @Test(priority = 19 , description = "Verify that User should not update details with null gender fild .")
+    void Updateuser8(){
+        Assert.assertEquals(put.invalidputrequest(Random1.generateRandomName(),Random1.generateDynamicEmail(),null,"active"),404);
+    }
+    @Test(priority = 20 , description = "Verify that User should delete record with valid id .")
+    void Deleteuser1(){
+        Assert.assertEquals(delete.DeleteUser(Config.userId),204);
+    }
+    @Test(priority = 21 , description = "Verify that User should not delete non existing record id .")
+    void Deleteuser2(){
+        Assert.assertEquals(delete.DeleteUser(Config.userId),404);
+    }
+    @Test(priority = 22 , description = "Verify that User should not delete record with invalid id .")
+    void Deleteuser3(){
+        Assert.assertEquals(delete.DeleteUser("1123@"),404);
     }
 
 
